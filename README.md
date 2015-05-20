@@ -6,7 +6,7 @@ gen_cycle
 `gen_cycle` is a simple behaviour for recurring (on a regular basis) supervised tasks.
 Every task (cycle) is a separate process, calling arbitrary callback every N milliseconds.
 The callback results with `cycle_op()` type being a directive to either continue, continue hibernated, or stop.
-Additionaly, a cycle can handle arbitrary Erlang messages. The result of message handling is expected to be `cycle_op()` as well.
+Additionally, a cycle can handle arbitrary Erlang messages. The result of message handling is expected to be `cycle_op()` as well.
 
 test
 ====
