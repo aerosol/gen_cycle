@@ -89,4 +89,6 @@ t_callback_hibernated(_Config) ->
     after timer:seconds(3) ->
               error(first_cycle_handle_failure)
     end,
+    {current_function,
+     {erlang,hibernate,3}} = process_info(Pid, current_function),
     true = erlang:is_process_alive(Pid).
