@@ -1,0 +1,7 @@
+language: erlang
+install: true
+otp_release:
+- R16B02
+- 17.1
+
+script: make deps compile test
