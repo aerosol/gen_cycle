@@ -28,4 +28,3 @@ handle_cycle(TestProcess)
 handle_info(Msg, TestProcess) ->
     TestProcess ! {info_handled, Msg},
     {continue, TestProcess}.
-

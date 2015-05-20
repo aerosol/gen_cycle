@@ -22,4 +22,3 @@ stop_child(Pid) when is_pid(Pid) ->
 init([]) ->
     {ok, {{simple_one_for_one, 500, 10},
           [ ?CHILD(gen_cycle, worker) ]}}.
-
