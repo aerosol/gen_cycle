@@ -1,6 +1,8 @@
 gen_cycle
 =========
 
+![Build Status](https://travis-ci.org/aerosol/gen_cycle.svg)
+
 `gen_cycle` is a simple behaviour for recurring (on a regular basis) supervised tasks.
 Every task (cycle) is a separate process, calling arbitrary callback every N milliseconds.
 The callback results with `cycle_op()` type being a directive to either continue, continue hibernated, or stop.
