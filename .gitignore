@@ -1,0 +1,8 @@
+deps
+logs
+*.beam
+.DS_Store
+erl_crash.dump
+tags
+.pythontags
+ebin
