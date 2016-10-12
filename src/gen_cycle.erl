@@ -20,7 +20,7 @@
     cycle_op().
 
 -export([start_supervised/2,
-         start_link/2,
+         start_link/2, start_link/3,
          init/1,
          handle_call/3,
          handle_cast/2,
@@ -39,6 +39,9 @@ start_supervised(CallbackMod, Args) ->
 
 start_link(CallbackMod, InitArgs) ->
     gen_server:start_link(?MODULE, [CallbackMod, InitArgs], []).
+
+start_link(Name, CallbackMod, InitArgs) ->
+    gen_server:start_link(Name, ?MODULE, [CallbackMod, InitArgs], []).
 
 init([CallbackMod, InitArgs]) ->
     case CallbackMod:init_cycle(InitArgs) of
