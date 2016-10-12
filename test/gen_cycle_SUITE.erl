@@ -8,7 +8,8 @@ all() ->
      t_cycle_handled,
      t_info_handled,
      t_callback_stop,
-     t_callback_hibernated
+     t_callback_hibernated,
+     t_start_named_supervised
      ].
 
 suite() ->
@@ -92,3 +93,8 @@ t_callback_hibernated(_Config) ->
     {current_function,
      {erlang,hibernate,3}} = process_info(Pid, current_function),
     true = erlang:is_process_alive(Pid).
+
+t_start_named_supervised(_Config) ->
+    Name = {local, named_cycle},
+    {ok, _} = sample_cycle:start(Name, [timer:seconds(1)]),
+    true = erlang:is_process_alive(whereis(named_cycle)).
