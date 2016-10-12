@@ -19,7 +19,7 @@
 -callback handle_info(Msg :: any(), CycleData :: any()) ->
     cycle_op().
 
--export([start_supervised/2,
+-export([start_supervised/2, start_supervised/3,
          start_link/2, start_link/3,
          init/1,
          handle_call/3,
@@ -36,6 +36,9 @@
 
 start_supervised(CallbackMod, Args) ->
     {ok, _} = gen_cycle_sup:start_child([CallbackMod, Args]).
+
+start_supervised(Name, CallbackMod, Args) ->
+    {ok, _} = gen_cycle_sup:start_child([Name, CallbackMod, Args]).
 
 start_link(CallbackMod, InitArgs) ->
     gen_server:start_link(?MODULE, [CallbackMod, InitArgs], []).
