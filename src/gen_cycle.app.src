@@ -4,4 +4,7 @@
               {registered,[]},
               {applications,[kernel,stdlib]},
               {mod,{gen_cycle_app,[]}},
-              {env,[]}]}.
+              {env,[]},
+              {maintainers, ["Adam Rutkowski"]},
+              {licenses, ["WTFPL"]},
+              {links, [{"Github", "https://github.com/aerosol/gen_cycle"}]}]}.
