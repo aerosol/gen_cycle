@@ -1,6 +1,6 @@
 {application,gen_cycle,
              [{description,"Erlang behaviour for recurring events"},
-              {vsn,"1.0.1"},
+              {vsn,"1.0.2"},
               {registered,[]},
               {applications,[kernel,stdlib]},
               {mod,{gen_cycle_app,[]}},
