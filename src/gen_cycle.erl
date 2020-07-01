@@ -49,7 +49,7 @@ start_link(Name, CallbackMod, InitArgs) ->
 init([CallbackMod, InitArgs]) ->
     case CallbackMod:init_cycle(InitArgs) of
         {ok, {Interval, CycleData}} ->
-            run_cycle(1),
+            run_cycle(0),
             {ok, #state{
                     callback = CallbackMod,
                     cycle_data = CycleData,
@@ -64,8 +64,10 @@ handle_call(_Request, _From, State) ->
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
-handle_info('$cycle', State=#state{callback=C, cycle_data=D}) ->
-    callback(C:handle_cycle(D), State);
+handle_info('$cycle', State=#state{callback=C, interval=I, cycle_data=D}) ->
+    V = C:handle_cycle(D),
+    run_cycle(I),
+    callback(V, State);
 handle_info(Msg, State=#state{callback=C, cycle_data=D}) ->
     callback(C:handle_info(Msg, D), State).
 
@@ -78,11 +80,9 @@ code_change(_OldVsn, State, _Extra) ->
 run_cycle(Interval) ->
     erlang:send_after(Interval, self(), '$cycle').
 
-callback({continue, NewD}, State=#state{interval=I}) ->
-    run_cycle(I),
+callback({continue, NewD}, State) ->
     {noreply, State#state{cycle_data=NewD}};
-callback({continue_hibernated, NewD}, State=#state{interval=I}) ->
-    run_cycle(I),
+callback({continue_hibernated, NewD}, State) ->
     {noreply, State#state{cycle_data=NewD}, hibernate};
 callback({stop, Reason}, State) ->
     {stop, Reason, State}.
