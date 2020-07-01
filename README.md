@@ -2,6 +2,7 @@ gen_cycle
 =========
 
 ![Build Status](https://travis-ci.org/aerosol/gen_cycle.svg)
+[![Hex.pm](https://img.shields.io/hexpm/v/gen_cycle.svg)](https://hex.pm/packages/gen_cycle)
 
 `gen_cycle` is a simple behaviour for recurring (on a regular basis) supervised tasks.
 Every task (cycle) is a separate process, calling arbitrary callback every N milliseconds.
