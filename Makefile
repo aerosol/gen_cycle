@@ -9,4 +9,4 @@ compile: deps
 	@./rebar compile
 
 test: compile
-	@rebar ct
+	@./rebar ct

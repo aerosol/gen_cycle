@@ -49,7 +49,7 @@ start_link(Name, CallbackMod, InitArgs) ->
 init([CallbackMod, InitArgs]) ->
     case CallbackMod:init_cycle(InitArgs) of
         {ok, {Interval, CycleData}} ->
-            run_cycle(0),
+            run_cycle(1),
             {ok, #state{
                     callback = CallbackMod,
                     cycle_data = CycleData,
@@ -77,6 +77,9 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
+run_cycle(0) ->
+    self() ! '$cycle',
+    erlang:yield();
 run_cycle(Interval) ->
     erlang:send_after(Interval, self(), '$cycle').
 

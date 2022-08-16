@@ -10,7 +10,8 @@ all() ->
      t_callback_stop,
      t_callback_hibernated,
      t_start_named_supervised,
-     t_handle_info_does_not_trigger_new_cycle
+     t_handle_info_does_not_trigger_new_cycle,
+     t_interval_can_be_zero
      ].
 
 suite() ->
@@ -141,3 +142,19 @@ t_handle_info_does_not_trigger_new_cycle(_Config) ->
                    mailbox, element(2, process_info(self(), messages))})
     end,
     ok.
+
+t_interval_can_be_zero(_Config) ->
+    {ok, Pid} = sample_cycle:start([self(), timer:seconds(0)]),
+    Pid ! i_need_this_back,
+    receive
+        cycle_handled ->
+            receive
+                {info_handled, i_need_this_back} ->
+                    ok
+            after timer:seconds(3) ->
+                      error(info_handle_failure)
+            end
+    after timer:seconds(3) ->
+              error(first_cycle_handle_failure)
+    end,
+    true = erlang:is_process_alive(Pid).
