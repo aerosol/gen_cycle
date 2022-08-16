@@ -9,7 +9,7 @@
 -export_type([cycle_op/0]).
 
 -callback init_cycle([InitArgs :: any()]) ->
-    {ok, {Interval :: pos_integer(),
+    {ok, {Interval :: non_neg_integer(),
           InitCycleData :: any()}}
     | ignore.
 
@@ -31,7 +31,7 @@
 -record(state, {
           callback   :: module(),
           cycle_data :: term(),
-          interval   :: pos_integer()
+          interval   :: non_neg_integer()
          }).
 
 start_supervised(CallbackMod, Args) ->
