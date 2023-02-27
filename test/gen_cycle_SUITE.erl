@@ -10,7 +10,8 @@ all() ->
      t_callback_stop,
      t_callback_hibernated,
      t_start_named_supervised,
-     t_handle_info_does_not_trigger_new_cycle
+     t_handle_info_does_not_trigger_new_cycle,
+     t_terminate_handled
      ].
 
 suite() ->
@@ -141,3 +142,13 @@ t_handle_info_does_not_trigger_new_cycle(_Config) ->
                    mailbox, element(2, process_info(self(), messages))})
     end,
     ok.
+
+t_terminate_handled(_Config) -> 
+    {ok, Pid} = sample_cycle_terminate:start([self(), timer:seconds(1)]),
+
+    receive
+        {terminated, boom} ->
+            ok
+    after timer:seconds(3) ->
+              error(terminate_handle_failure)
+    end.

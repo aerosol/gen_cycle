@@ -19,6 +19,11 @@
 -callback handle_info(Msg :: any(), CycleData :: any()) ->
     cycle_op().
 
+-callback terminate(Reason :: any(), CycleData :: any()) -> 
+    ok.
+
+-optional_callbacks([terminate/2]).
+
 -export([start_supervised/2, start_supervised/3,
          start_link/2, start_link/3,
          init/1,
@@ -71,8 +76,13 @@ handle_info('$cycle', State=#state{callback=C, interval=I, cycle_data=D}) ->
 handle_info(Msg, State=#state{callback=C, cycle_data=D}) ->
     callback(C:handle_info(Msg, D), State).
 
-terminate(_Reason, _State) ->
-    ok.
+terminate(Reason, #state{callback=C, cycle_data=D}) ->
+    case erlang:function_exported(C, terminate, 2) of
+        true -> 
+            C:terminate(Reason, D);
+        false -> 
+            ok
+    end.
 
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
